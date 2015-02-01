@@ -181,6 +181,10 @@ static void default_idle(void)
 	local_irq_enable();
 }
 
+// Export the default idle handler to avoid declaring another for lulz
+void (*pm_idle)(void) = default_idle;
+EXPORT_SYMBOL(pm_idle);
+
 void arch_cpu_idle_prepare(void)
 {
 	local_fiq_enable();
