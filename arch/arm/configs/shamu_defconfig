@@ -577,6 +577,7 @@ CONFIG_CC_STACKPROTECTOR=y
 # CONFIG_XEN is not set
 CONFIG_CP_ACCESS=y
 # CONFIG_ARM_FLUSH_CONSOLE_ON_RESTART is not set
+CONFIG_INTELLI_PLUG=y
 
 #
 # Boot options
@@ -599,6 +600,7 @@ CONFIG_KEXEC_HARDBOOT=y
 #
 # CPU Power Management
 #
+CONFIG_POWERSUSPEND=y
 
 #
 # CPU Frequency scaling
