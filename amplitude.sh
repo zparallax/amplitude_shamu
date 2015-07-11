@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to build your kernel
-  k=~/dev/amplitude_shamu_v2
+  k=~/dev/amplitude_shamu
 # Directory for the any kernel updater
   t=$k/packages
   u=$k/packagesm
