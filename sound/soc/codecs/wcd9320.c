@@ -4301,7 +4301,10 @@ static int taiko_volatile(struct snd_soc_codec *ssc, unsigned int reg)
 	return 0;
 }
 
-static int taiko_write(struct snd_soc_codec *codec, unsigned int reg,
+#ifndef CONFIG_WAVE_SOUND
+static
+#endif
+int taiko_write(struct snd_soc_codec *codec, unsigned int reg,
 	unsigned int value)
 {
 	int ret;
@@ -4312,6 +4315,10 @@ static int taiko_write(struct snd_soc_codec *codec, unsigned int reg,
 
 	BUG_ON(reg > TAIKO_MAX_REGISTER);
 
+#ifdef CONFIG_WAVE_SOUND
+	value = sound_value_set_taiko_write(reg, value);
+#endif
+
 	if (!taiko_volatile(codec, reg)) {
 		ret = snd_soc_cache_write(codec, reg, value);
 		if (ret != 0)
@@ -4321,7 +4328,14 @@ static int taiko_write(struct snd_soc_codec *codec, unsigned int reg,
 
 	return wcd9xxx_reg_write(&wcd9xxx->core_res, reg, value);
 }
-static unsigned int taiko_read(struct snd_soc_codec *codec,
+#ifdef CONFIG_WAVE_SOUND
+EXPORT_SYMBOL(taiko_write);
+#endif
+
+#ifndef CONFIG_WAVE_SOUND
+static
+#endif
+unsigned int taiko_read(struct snd_soc_codec *codec,
 				unsigned int reg)
 {
 	unsigned int val;
@@ -4347,6 +4361,9 @@ static unsigned int taiko_read(struct snd_soc_codec *codec,
 	val = wcd9xxx_reg_read(&wcd9xxx->core_res, reg);
 	return val;
 }
+#ifdef CONFIG_WAVE_SOUND
+EXPORT_SYMBOL(taiko_read);
+#endif
 
 static int taiko_startup(struct snd_pcm_substream *substream,
 		struct snd_soc_dai *dai)
@@ -7150,6 +7167,11 @@ static int taiko_codec_probe(struct snd_soc_codec *codec)
 	snd_soc_dapm_sync(dapm);
 
 	codec->ignore_pmdown_time = 1;
+	
+#ifdef CONFIG_WAVE_SOUND
+	save_taiko_codec_pointer(codec);
+#endif
+	
 	return ret;
 
 err_irq:

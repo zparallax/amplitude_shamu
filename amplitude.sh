@@ -20,6 +20,7 @@
         cd $k
 # Setup output directory
     mkdir -p "out/$c"
+    cp -R "$t/data" out/$c
     cp -R "$t/system" out/$c
     cp -R "$t/META-INF" out/$c
     cp -R "$t/patch" out/$c
@@ -52,22 +53,23 @@ make -j`grep 'processor' /proc/cpuinfo | wc -l` CONFIG_DEBUG_SECTION_MISMATCH=y 
    done
    
 # Create M package directory
-# cd $k/arch/arm/configs/shamu_m
-#    for d in *
-#      do
-#        cd $k
-#    mkdir -p "out/$d"
-#    cp -R "$u/system" out/$d
-#    cp -R "$u/META-INF" out/$d
-#    cp -R "$u/patch" out/$d
-#    cp -R "$u/ramdisk" out/$d
-#    cp -R "$u/tools" out/$d
-#    cp -R "$u/anykernel.sh" out/$d
+ cd $k/arch/arm/configs/M
+    for d in *
+      do
+        cd $k
+    mkdir -p "out/$d"
+    cp -R "$u/data" out/$d
+    cp -R "$u/system" out/$d
+    cp -R "$u/META-INF" out/$d
+    cp -R "$u/patch" out/$d
+    cp -R "$u/ramdisk" out/$d
+    cp -R "$u/tools" out/$d
+    cp -R "$u/anykernel.sh" out/$d
     
-#    z=$d-$today
+    z=$d-$today
     
-#    cp $k/arch/arm/boot/zImage-dtb out/$d/zImage-dtb
-# done
+    cp $k/arch/arm/boot/zImage-dtb out/$d/zImage-dtb
+ done
  
 # Build Zip
  clear
@@ -78,7 +80,7 @@ make -j`grep 'processor' /proc/cpuinfo | wc -l` CONFIG_DEBUG_SECTION_MISMATCH=y 
      cd $k/out/$d/
        7z a -tzip -mx5 "$z.zip"
          mv $z.zip $k/out/$z.zip
-# cp $k/out/$z.zip $db/$z.zip
+#	 cp $k/out/$z.zip $db/$z.zip
 #           rm -rf $k/out/$c
 # Line below for debugging purposes,  uncomment to stop script after each config is run
 #read this

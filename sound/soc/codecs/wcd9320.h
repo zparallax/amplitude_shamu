@@ -31,6 +31,10 @@
 #define TAIKO_SB_PGD_PORT_RX_BASE   0x40
 #define TAIKO_SB_PGD_PORT_TX_BASE   0x50
 
+// Wave sound
+extern void save_taiko_codec_pointer(struct snd_soc_codec *codec_instance);
+extern unsigned int sound_value_set_taiko_write(unsigned int reg, unsigned int value);
+
 extern const u8 taiko_reg_readable[TAIKO_CACHE_SIZE];
 extern const u8 taiko_reset_reg_defaults[TAIKO_CACHE_SIZE];
 struct taiko_codec_dai_data {
